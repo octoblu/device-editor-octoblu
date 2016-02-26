@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import ReactSchemaForm from 'react-jsonschema-form'
+import querystring from 'querystring'
+import _ from 'lodash'
 
 export default class SchemaEditor extends Component {
+
   state = {
     schema: null,
     formData: null,
@@ -11,8 +14,17 @@ export default class SchemaEditor extends Component {
   componentDidMount() {
     this.setState({ loading: true })
 
-    const { uuid, token } = this.props.params
-    this.conn = meshblu.createConnection({uuid, token})
+    const meshbluJson = this.getMeshbluJson()
+
+    if (!meshbluJson.token){
+      this.setState({
+        loading: false,
+        status: 'no-token'
+      })
+      return;
+    }
+
+    this.conn = meshblu.createConnection(meshbluJson)
 
     const self = this
 
@@ -33,6 +45,17 @@ export default class SchemaEditor extends Component {
     });
   }
 
+  getMeshbluJson = () =>  {
+    const { uuid } = this.props.params
+    var query = querystring.parse(location.search.substring(1, location.search.length))
+    return {
+      uuid,
+      token: query.token,
+      server: query.server || 'meshblu.octoblu.com',
+      port: query.port || 443
+    }
+  }
+
   handleSubmit = ({ formData }) => {
     const { uuid } = this.props.params
 
@@ -43,10 +66,11 @@ export default class SchemaEditor extends Component {
   }
 
   render() {
-    const { loading, schema, formData } = this.state
+    const { loading, schema, formData, status } = this.state
 
+    if (status == 'no-token') return <div>No token provided</div>
     if (loading) return <div>Loading...</div>
-    if (!loading && !schema) return <div>Device has no schema</div>
+    if (!schema) return <div>Device has no schema</div>
 
     return <div>
       <h2>Schema Editor</h2>

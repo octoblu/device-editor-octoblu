@@ -8,7 +8,7 @@ export default class SearchDevice extends Component {
   }
 
   handleSubmit = () => {
-    window.location = '/' + this.state.uuid + '/' + this.state.token + '/schema'
+    window.location = '/' + this.state.uuid + '/schema?token=' + this.state.token
   }
 
   handleChange = (event) => {

@@ -10,7 +10,7 @@ render((
   <Router history={browserHistory}>
     <Route path="/" component={Layout}>
       <Route path="/search" component={SearchDevice}/>
-      <Route path="/:uuid/:token/schema" component={SchemaEditor}/>
+      <Route path="/:uuid/schema" component={SchemaEditor}/>
     </Route>
   </Router>
 ), document.getElementById('app'))
