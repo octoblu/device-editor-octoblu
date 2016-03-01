@@ -12,9 +12,12 @@ export default class SchemaEditor extends Component {
   }
 
   componentDidMount() {
+    var query = querystring.parse(location.search.substring(1, location.search.length))
+
+    this.callbackURL = query.callbackURL
     this.setState({ loading: true })
 
-    const meshbluJson = this.getMeshbluJson()
+    const meshbluJson = this.getMeshbluJson(query)
 
     if (!meshbluJson.token){
       this.setState({
@@ -29,8 +32,6 @@ export default class SchemaEditor extends Component {
     const self = this
 
     this.conn.on('ready', function(data){
-      console.log('UUID AUTHENTICATED!')
-
       self.conn.whoami({}, function(device){
         const { name, optionsSchema, options } = device
 
@@ -45,9 +46,8 @@ export default class SchemaEditor extends Component {
     });
   }
 
-  getMeshbluJson = () =>  {
+  getMeshbluJson = (query) =>  {
     const { uuid } = this.props.params
-    var query = querystring.parse(location.search.substring(1, location.search.length))
     return {
       uuid,
       token: query.token,
@@ -63,6 +63,8 @@ export default class SchemaEditor extends Component {
       uuid,
       "options": formData
     })
+    console.log("trying to go to", this.callbackURL)
+    window.location = this.callbackURL
   }
 
   render() {
