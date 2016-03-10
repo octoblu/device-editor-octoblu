@@ -27,8 +27,16 @@ export default React.createClass({
       return new MeshbluHttp(meshbluConfig)
   },
 
-  handleChange: function (device) {    
+  handleChange: function (device) {
     this.setState({device})
+  },
+
+  handleSave: function () {
+    var {uuid, meshblu} = this
+    meshblu.update(uuid, (error, device)=> {
+      console.log(error, device)
+      this.setState({device})
+    })
   },
 
   render: function () {
@@ -37,6 +45,7 @@ export default React.createClass({
     return (
       <div>
         <MeshbluDeviceEditor device={device} onChange={this.handleChange} />
+      <button onClick={this.handleSave}>Save</button>
       </div>
     )
   }
