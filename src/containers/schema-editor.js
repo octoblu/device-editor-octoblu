@@ -1,30 +1,43 @@
-import React, { Component, PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 
-import ZooidMeshbluDeviceEditor from 'zooid-meshblu-device-editor'
+import MeshbluDeviceEditor from 'zooid-meshblu-device-editor'
+import MeshbluHttp from 'meshblu-http'
 
-export default class SchemaEditor extends Component {
-  getMeshbluJson = () =>  {
-    const { uuid } = this.props.params
-    var { token, server, port } = this.props.location.query;
+export default React.createClass({
+  state: {},
+  componentDidMount: function () {
+    var {uuid} = this.props.params
+    if(!this.props.params) return window.location = '/search'
 
-    return {
-      uuid,
-      token,
-      server: server || 'meshblu.octoblu.com',
-      port: port || 443
-    }
+    this.meshblu = this.getMeshbluHttp(uuid)
+    this.uuid = uuid
+    this.meshblu.whoami( (error, device) => {
+      this.setState({device})
+    })
+  },
+
+  getMeshbluHttp: function(uuid) {
+      var { token, hostname, port, callbackURL } = this.props.location.query
+      var meshbluConfig = {
+        uuid,
+        token,
+        hostname: hostname || 'meshblu.octoblu.com',
+        port: port || 443
+      }
+      return new MeshbluHttp(meshbluConfig)
+  },
+
+  handleChange: function (device) {    
+    this.setState({device})
+  },
+
+  render: function () {
+    const {device} = this.state
+    if(!device) return <h3>Loading</h3>
+    return (
+      <div>
+        <MeshbluDeviceEditor device={device} onChange={this.handleChange} />
+      </div>
+    )
   }
-
-  render() {
-    const meshbluConfig = this.getMeshbluJson()
-
-    return <div>
-      <h2>Schema Editor</h2>
-
-      <ZooidMeshbluDeviceEditor
-        uuid={meshbluConfig.uuid}
-        meshbluConfig={meshbluConfig}
-      />
-    </div>
-  }
-}
+})
