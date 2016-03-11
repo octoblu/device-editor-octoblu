@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 
 export default class SearchDevice extends Component {
 
-  state = {
-    uuid: '',
-    token: ''
-  }
+  state = { uuid: '', token: '' }
 
   handleSubmit = () => {
     window.location = '/' + this.state.uuid + '?token=' + this.state.token
@@ -26,24 +23,14 @@ export default class SearchDevice extends Component {
 
       <form name='search'>
         <font>Enter your device's uuid: </font>
-        <input
-          name='uuid'
-          onChange={this.handleChange}
-        />
+        <input name='uuid' onChange={this.handleChange} />
         <br/>
 
         <font>Enter your device's token: </font>
-        <input
-          name='token'
-          onChange={this.handleChange}
-        />
+        <input name='token' onChange={this.handleChange} />
         <br/>
 
-        <button
-          name='searchDevice'
-          form='search'
-          type='submit'
-          onClick={this.handleSubmit}>
+        <button name='searchDevice' form='search' type='submit' onClick={this.handleSubmit}>
           Search for device
         </button>
       </form>

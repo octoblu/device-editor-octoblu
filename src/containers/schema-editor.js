@@ -14,13 +14,14 @@ export default React.createClass({
 
     this.meshblu = this.getMeshbluHttp(uuid)
     this.uuid = uuid
+    this.callbackURL = this.props.location.query.callbackURL
     this.meshblu.whoami( (error, device) => {
       this.setState({device})
     })
   },
 
   getMeshbluHttp: function(uuid) {
-      var { token, hostname, port, callbackURL } = this.props.location.query
+      var { token, hostname, port} = this.props.location.query
       var meshbluConfig = {
         uuid,
         token,
@@ -34,7 +35,12 @@ export default React.createClass({
     const device = _.extend({}, this.state.device, {name, options})
     this.setState({device})
     this.meshblu.updateDangerously(this.uuid, {$set: {name, options}}, (error)=>{
-      if(error) console.log('Error!', error)
+      if(error) {
+        console.log('Error!', error)
+        return
+      }
+      if(!this.callbackURL) return;
+      window.location = this.callbackURL
     })
   },
 
