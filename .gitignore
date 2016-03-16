@@ -31,3 +31,7 @@ node_modules
 
 # Optional REPL history
 .node_repl_history
+
+# dev files
+*.dockerfile-dev
+npmrc-dev
