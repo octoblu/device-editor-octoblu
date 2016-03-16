@@ -25,9 +25,7 @@
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-router": "^2.0.0",
-    "zooid-meshblu-device-editor": "^3.1.1"
-  },
-  "devDependencies": {
+    "zooid-meshblu-device-editor": "^3.1.1",
     "autoprefixer": "^6.3.3",
     "babel-core": "^6.5.2",
     "babel-eslint": "^5.0.0",
@@ -51,5 +49,7 @@
     "webpack": "^1.12.14",
     "webpack-dev-middleware": "^1.5.1",
     "webpack-hot-middleware": "^2.7.1"
+  },
+  "devDependencies": {
   }
 }
