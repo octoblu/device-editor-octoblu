@@ -11,7 +11,7 @@ export default class SchemaEditor extends Component {
       uuid,
       token,
       server: server || 'meshblu.octoblu.com',
-      port: port || 443
+      port: port || '443'
     }
   }
 
