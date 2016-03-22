@@ -4,15 +4,14 @@ var autoprefixer  = require('autoprefixer');
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
-  entry: [
-    'eventsource-polyfill', // necessary for hot reloading with IE
-    'webpack-hot-middleware/client',
-    './src/index'
-  ],
+  entry: ['./src/index'],
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
     publicPath: '/dist/'
+  },
+  externals: {
+    'meshblu-http': 'MeshbluHttp'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
