@@ -1,0 +1,26 @@
+language: node_js
+node_js:
+- '0.11'
+- '0.10'
+before_deploy:
+- npm run build
+- mkdir -p deploy/dist
+- mkdir -p deploy/$TRAVIS_TAG
+- cp index.html deploy
+- cp dist/bundle.js deploy/dist
+- cp dist/bundle.js.map deploy/dist
+- cp dist/bundle.js deploy/$TRAVIS_TAG
+- cp dist/bundle.js.map deploy/$TRAVIS_TAG
+deploy:
+  provider: s3
+  access_key_id: AKIAJH2D5IPIRHYJT5IA
+  secret_access_key:
+    secure: SLG2dwKPKgmFDmR+DrU7WtujbKIIOm6kG+tBsCzomw8yTnlPU34Np1PJJmZX8kW+xmf+gqvskG3i2lhIFfp7LuoEAeLyEPD0sZac5xj7Qp7g8wY5wJ0Mkw1n5VkYOtMg7uXGKksMLwqixXfk8sGARdO5up7y4lcViXRFr6sB8dmZbRyClZD57wZrazSVYPuxFxc5vs640YRteuFvUbDjx0pVAf9Fe+xov2iOTTX9pnjg6QdMzA3r7sWIyqmbNo1c1kAUIKJm4Ivj2gOL8LbSOBxK5PsgpMrLndo/uhIGSj1LQqqHGO7AGkU6SmQH38FrNWBuMjqKU+VX4tTUudt2UCWPZsjj/iOtxUsb3jSwsW/3CdH46VhWpa7JXtOxaXRjy/8BL1fEbQGK/XeDMTLR4CLhuT/Cb6YphWxB0FnK3QX4oaFlEpVQMTXuHVzYb2Oy8psreD3vzyp69VlI59CQFYg+3hohaZLyz9FHI2nBGMR/eE1FvrcXzVno6SCQuM0YPKcQxCDwNQXTaIkmiO+phGQDxuuoQrRQKzTipllwgsvmpYd0/zjBkVa6uK5HYuoXoRth2ubKRWW+QFhGl7kAOzH2YWhAjQsCqMaWIkZtWXWrEl1OvZ+9I5SDF779Iw800g8kd8/+e0fm2TGwsJMGpAUeMV9ydNS6MZjFWzOPZVI=
+  bucket: device-editor.octoblu.com
+  region: us-west-2
+  local-dir: deploy
+  on:
+    tags: true
+    all_branches: true
+  api_key:
+    secure: g2NloME93XZn6i9vLmA8kdnTxpxVrWeZjTicHIT3U4J1OTrTG6FEZ17UJDwSVZLQr2ibp2vcWdBR+9NKwFNdOVZwwIDc8fwUEcArIulDfbgDuN72Zx8VyzxptGJvMsiM7+XBj8sx2r/NtRs4FNnkvtNzr8rOP5Rt1bdAjMKtHuAeLfxJ45US6dVy6gtNucuWI6WagEK3UyJGZZiDDdC5sH4/wTCwUM5P21slpfAeys9CcYOta9+WMd8+uhjthSWMqdpM0O68c5YbKpRx7jC8z1CWD558wiApuiO4lp3UzSGNrc8sK7wQPqEWWukEODhvzDQVUVu9oDsrxnQhibovUezGfXhdKT7D504sj51sUHTtQS9bAQupQTOFovxX+G9nsWPQfa7Dgl9H60eSOs72SF5DZsHYuMchyUam7XTaXw+lXHuAq3Jcyw3l5cplonKDdZhfbPvrsTpcqUQE/hzwKx2hK6ChDUhzI5jLKc273teYuzPbo7UXbqo+XlLnVcrw7JQzxlQ1Jzm/SoBvXPDVy6FWBZnpioK2E0l1hmNJDzspipCqdASKFr5eqwzpShUJpCdwqdBECbKPMFc4NX+P3v7X+kW9k6MrKlFSzklGt2CU53yyq+NCcPSnI21qRU7T2dB81xYPFQv3rGDrnHFdwP5XR8ai4HckFNubHlzZxi4=
